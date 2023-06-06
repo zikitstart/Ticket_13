@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Main {
     public static void main(String[] args) {
@@ -27,6 +28,30 @@ public class Main {
         books.add("Собачье сердце");
         books.add("Герой нашего времениь");
 
+        List<ArrayList<String>> shelves = putBooksOnShelves(books);
+        shelves.forEach(System.out::println);
+    }
+    public static List<ArrayList<String>> putBooksOnShelves(List<String> books){
+        books = books.stream().sorted().collect(Collectors.toList());
 
+        List<ArrayList<String>> shelves = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            ArrayList<String> shelf = new ArrayList<>();
+            shelves.add(shelf);
+        }
+        int booksOnShelves = books.size() / shelves.size();
+        int remains = books.size() % shelves.size();
+        int count = 0;
+
+        for (ArrayList<String> shelf : shelves) {
+            for (int i = 0; i < booksOnShelves; i++) {
+                shelf.add(books.get(count++));
+            }
+            if (remains > 0){
+                shelf.add(books.get(count++));
+                remains--;
+            }
+        }
+        return shelves;
     }
 }
